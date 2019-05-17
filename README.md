@@ -1,2 +1,3 @@
 # U3DAndPlugin
 u3d交互底层脚本-移动位置，以前的名字androidPlugin
+android平台的就是java,使android和unity3d进行交互的插件

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sdkplugin.bridge.IU3DListener;
 import com.sdkplugin.bridge.U3DBridge;
 
 /**
@@ -50,16 +51,28 @@ public class Tools {
 		return ret;
 	}
 
+	static public void msg2U3D(IU3DListener ler,String msgData) {
+		U3DBridge.response(ler,msgData);
+	}
+	
 	static public void msg2U3D(String msgData) {
-		U3DBridge.response(msgData);
+		msg2U3D(null,msgData);
 	}
 
+	static public void msg2U3D(IU3DListener ler,JSONObject msgJson) {
+		msg2U3D(ler,msgJson.toString());
+	}
+	
 	static public void msg2U3D(JSONObject msgJson) {
-		msg2U3D(msgJson.toString());
+		msg2U3D(null,msgJson);
 	}
 
+	static public void msg2U3D(IU3DListener ler,Map msgMap) {
+		msg2U3D(ler,new JSONObject(msgMap));
+	}
+	
 	static public void msg2U3D(Map msgMap) {
-		msg2U3D(new JSONObject(msgMap));
+		msg2U3D(null,msgMap);
 	}
 
 	static public void msg2U3D(String code, String msg, String data) {

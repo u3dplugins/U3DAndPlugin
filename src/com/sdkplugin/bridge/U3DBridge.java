@@ -4,7 +4,7 @@ package com.sdkplugin.bridge;
  * 类名 : U3D <-> java 桥 <br/>
  * 作者 : canyon / 龚阳辉 <br/>
  * 时间 : 2016-05-30 10：30 <br/>
- * 功能 : 
+ * 功能 :
  */
 public class U3DBridge {
 
@@ -45,8 +45,7 @@ public class U3DBridge {
 		setListenerPars();
 	}
 
-	static public void initAll(IU3DListener listener, String ugojName,
-			String ugobjMethod) {
+	static public void initAll(IU3DListener listener, String ugojName, String ugobjMethod) {
 		setListener(listener);
 		init(ugojName, ugobjMethod);
 	}
@@ -59,11 +58,17 @@ public class U3DBridge {
 		getListener().receiveFromUnity(json);
 	}
 
-	static public void response(String json) {
+	static public void response(IU3DListener ler, String json) {
 		try {
-			getListener().response2Unity(json);
+			if (ler == null)
+				ler = getListener();
+			ler.response2Unity(json);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	static public void response(String json) {
+		response(null, json);
 	}
 }
