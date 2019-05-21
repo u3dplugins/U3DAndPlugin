@@ -24,8 +24,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Handler;
-import android.os.Looper;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
@@ -61,8 +59,7 @@ public class AndU3DBasic extends AndBasic {
 	}
 
 	static final public void sendMsgMain(final String gobjName, final String method, final String data) {
-		Handler hd = new Handler(Looper.getMainLooper());
-		hd.post(new Runnable() {
+		runInMainThread(new Runnable() {
 			public void run() {
 				sendMsg(gobjName, method, data);
 			}

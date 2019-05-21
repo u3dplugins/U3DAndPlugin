@@ -10,6 +10,8 @@ import java.util.Map;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.StatFs;
 
 /**
@@ -392,11 +394,14 @@ public class AndBasic {
 		int cores;
 		try {
 			cores = new File("/sys/devices/system/cpu/").listFiles(CPU_FILTER).length;
-		} catch (SecurityException e) {
-			cores = DEVICEINFO_UNKNOWN;
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			cores = DEVICEINFO_UNKNOWN;
 		}
 		return cores;
+	}
+	
+	static final public void runInMainThread(Runnable r) {
+		Handler hd = new Handler(Looper.getMainLooper());
+		hd.post(r);
 	}
 }
