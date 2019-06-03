@@ -51,43 +51,51 @@ public class Tools {
 		return ret;
 	}
 
-	static public void msg2U3D(IU3DListener ler,String msgData) {
-		U3DBridge.response(ler,msgData);
+	static public void msg2U3D(String msgData, IU3DListener ler) {
+		U3DBridge.response(ler, msgData);
 	}
-	
+
 	static public void msg2U3D(String msgData) {
-		msg2U3D(null,msgData);
+		msg2U3D(msgData, null);
 	}
 
-	static public void msg2U3D(IU3DListener ler,JSONObject msgJson) {
-		msg2U3D(ler,msgJson.toString());
+	static public void msg2U3D(JSONObject msgJson, IU3DListener ler) {
+		msg2U3D(msgJson.toString(), ler);
 	}
-	
+
 	static public void msg2U3D(JSONObject msgJson) {
-		msg2U3D(null,msgJson);
+		msg2U3D(msgJson, null);
 	}
 
-	static public void msg2U3D(IU3DListener ler,Map msgMap) {
-		msg2U3D(ler,new JSONObject(msgMap));
+	static public void msg2U3D(Map msgMap, IU3DListener ler) {
+		msg2U3D(new JSONObject(msgMap), ler);
 	}
-	
+
 	static public void msg2U3D(Map msgMap) {
-		msg2U3D(null,msgMap);
+		msg2U3D(msgMap, null);
 	}
 
-	static public void msg2U3D(String code, String msg, String data) {
+	static public void msg2U3D(String code, String msg, String data, IU3DListener ler) {
 		Map<String, String> mapJson = new HashMap<String, String>();
 		mapJson.put("code", code);
 		mapJson.put("msg", isEmptyTrim(msg) ? "" : msg);
 		mapJson.put("data", isEmptyTrim(data) ? "" : data);
-		msg2U3D(mapJson);
+		msg2U3D(mapJson, ler);
+	}
+
+	static public void msg2U3D(String code, String msg, String data) {
+		msg2U3D(code, msg, data, (IU3DListener) null);
+	}
+
+	static public void msg2U3D(String code, String msg, JSONObject data, IU3DListener ler) {
+		msg2U3D(code, msg, data == null ? null : data.toString(), ler);
 	}
 
 	static public void msg2U3D(String code, String msg, JSONObject data) {
-		msg2U3D(code, msg, data == null ? null : data.toString());
+		msg2U3D(code, msg, data, null);
 	}
 
-	static public void msg2U3D(String code, String msg, String cmd, JSONObject data) {
+	static public void msg2U3D(String code, String msg, String cmd, JSONObject data, IU3DListener ler) {
 		if (cmd != null && !"".equals(cmd)) {
 			if (data == null) {
 				data = new JSONObject();
@@ -99,10 +107,14 @@ public class Tools {
 				e.printStackTrace();
 			}
 		}
-		msg2U3D(code, msg, data);
+		msg2U3D(code, msg, data, ler);
 	}
 
-	static public void msg2U3D(String code, String msg, String cmd, Map<String, Object> data) {
+	static public void msg2U3D(String code, String msg, String cmd, JSONObject data) {
+		msg2U3D(code, msg, cmd, data, null);
+	}
+
+	static public void msg2U3D(String code, String msg, String cmd, Map<String, Object> data, IU3DListener ler) {
 		String strData = "";
 		if (cmd != null && !"".equals(cmd)) {
 			try {
@@ -111,7 +123,11 @@ public class Tools {
 				e.printStackTrace();
 			}
 		}
-		msg2U3D(code, msg, strData);
+		msg2U3D(code, msg, strData, ler);
+	}
+
+	static public void msg2U3D(String code, String msg, String cmd, Map<String, Object> data) {
+		msg2U3D(code, msg, cmd, data, null);
 	}
 
 	static public String getTextInAssets(android.content.Context context, String fn) {
