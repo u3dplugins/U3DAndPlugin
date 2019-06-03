@@ -51,7 +51,7 @@ public class PluginBasic extends AbsU3DListener {
 				throw ex;
 			} else {
 				ex.printStackTrace();
-				Tools.msg2U3D(CODE_ERROR, ex.getMessage(), obj);
+				Tools.msg2U3D(CODE_ERROR, ex.getMessage(), obj,this);
 			}
 		} finally {
 			reInit();
@@ -61,7 +61,7 @@ public class PluginBasic extends AbsU3DListener {
 	private void handlerJson(final String cmd, JSONObject data) throws Exception {
 		switch (cmd) {
 		case "getPackageInfo":
-			Tools.msg2U3D(Tools.getTextInAssets(getCurContext(), data.getString("filename")));
+			Tools.msg2U3D(Tools.getTextInAssets(getCurContext(), data.getString("filename")),this);
 			break;
 		case "kill":
 			killSelf();
@@ -72,10 +72,10 @@ public class PluginBasic extends AbsU3DListener {
 			}
 			break;
 		case "phoneInfo":
-			Tools.msg2U3D(CODE_SUCCESS, "", cmd, getPhoneState(mapData));
+			Tools.msg2U3D(CODE_SUCCESS, "", cmd, getPhoneState(mapData),this);
 			break;
 		case "phone_mem_cpu":
-			Tools.msg2U3D(CODE_SUCCESS, "", cmd, getMemCpuInfo(mapData));
+			Tools.msg2U3D(CODE_SUCCESS, "", cmd, getMemCpuInfo(mapData),this);
 			break;
 		default:
 			handlerMsg(cmd, data);
@@ -105,7 +105,7 @@ public class PluginBasic extends AbsU3DListener {
 				isVal1 = isInstalledApk(strVal1); // "com.facebook.katana"
 			}
 			data.put("isInApk", isVal1);
-			Tools.msg2U3D(CODE_SUCCESS, "", cmd, data);
+			Tools.msg2U3D(CODE_SUCCESS, "", cmd, data,this);
 			break;
 		case "shareImg":
 			// 图片分享
@@ -122,10 +122,10 @@ public class PluginBasic extends AbsU3DListener {
 				}
 			}
 			mapData.put("isState", isVal1);
-			Tools.msg2U3D(CODE_SUCCESS, "", cmd, mapData);
+			Tools.msg2U3D(CODE_SUCCESS, "", cmd, mapData,this);
 			break;
 		default:
-			Tools.msg2U3D(CODE_SUCCESS, "", String.format("{\"cmd\":\"%s\",\"val\":\"这是一个demo\"}", cmd));
+			Tools.msg2U3D(CODE_SUCCESS, "", String.format("{\"cmd\":\"%s\",\"val\":\"这是一个demo\"}", cmd),this);
 			break;
 		}
 	}
