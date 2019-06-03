@@ -237,7 +237,7 @@ public class AndU3DBasic extends AndBasic {
 	}
 
 	static final public String getPackageName() {
-		return getPackageName(getCurContext());
+		return getPkgName(getCurContext(),false);
 	}
 
 	static final public PackageInfo getPackageInfo() {

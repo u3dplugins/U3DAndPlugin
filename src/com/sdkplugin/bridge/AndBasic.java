@@ -30,22 +30,27 @@ public class AndBasic {
 
 	// 手机型号
 	static final public String getModel() {
-		return android.os.Build.MODEL;
+		return Build.MODEL;
 	}
 
-	// 手机厂商
+	// 系统定制商
 	static final public String getDeviceBrand() {
-		return android.os.Build.BRAND;
+		return Build.BRAND;
+	}
+
+	// 硬件制造商
+	static final public String getManufacturer() {
+		return Build.MANUFACTURER;
 	}
 
 	// 获取系统版本字符串。如4.1.2 或2.2 或2.3等
 	static final public String getVersion() {
-		return android.os.Build.VERSION.RELEASE;
+		return Build.VERSION.RELEASE;
 	}
 
 	// 系统的API级别 数字表示
 	static final public int getAndVersion() {
-		return android.os.Build.VERSION.SDK_INT;
+		return Build.VERSION.SDK_INT;
 	}
 
 	// 转为ip4
@@ -95,7 +100,7 @@ public class AndBasic {
 		return macAddress;
 	}
 
-	static final public void setPackageName(Context context) {
+	static final public void setPkgName(Context context) {
 		if (context != null)
 			m_curCPkg = context.getPackageName();
 	}
@@ -107,20 +112,21 @@ public class AndBasic {
 
 	static final public void setPkgName(Object obj) {
 		if (obj != null)
-			m_curCPkg = obj.getClass().getPackage().getName();
+			setPkgName(obj.getClass());
 	}
 
-	static final public String getPackageName(Context context) {
-		if ((context != null) && (m_curCPkg == null || "".equals(m_curCPkg))) {
-			setPackageName(context);
-		}
+	// pkg = Package
+	static final public String getPkgName(Context context, boolean isRe) {
+		isRe = isRe || (m_curCPkg == null || "".equals(m_curCPkg));
+		if (isRe)
+			setPkgName(context);
 		return m_curCPkg;
 	}
-
-	static final public String getPkgName(Class<?> clazz) {
-		if ((clazz != null) && (m_curCPkg == null || "".equals(m_curCPkg))) {
+	
+	static final public String getPkgName(Class<?> clazz, boolean isRe) {
+		isRe = isRe || (m_curCPkg == null || "".equals(m_curCPkg));
+		if (isRe)
 			setPkgName(clazz);
-		}
 		return m_curCPkg;
 	}
 
@@ -131,8 +137,7 @@ public class AndBasic {
 	 */
 	static final public boolean isExternalStoreReadable() {
 		String state = Environment.getExternalStorageState();
-		if (state.equals(Environment.MEDIA_MOUNTED) || state.equals(Environment.MEDIA_MOUNTED_READ_ONLY)
-				|| state.equals(Environment.MEDIA_SHARED)) {
+		if (state.equals(Environment.MEDIA_MOUNTED) || state.equals(Environment.MEDIA_MOUNTED_READ_ONLY) || state.equals(Environment.MEDIA_SHARED)) {
 			return true;
 		} else {
 			return false;
@@ -217,7 +222,7 @@ public class AndBasic {
 		long availableBlocks = stat.getAvailableBlocksLong();
 		long totalSize = totalBlocks * blockSize;
 		long availSize = availableBlocks * blockSize;
-		
+
 		map.put(strHead + "_block", blockSize);
 		map.put(strHead + "_rate", blockSize / 1024.0);
 		map.put(strHead + "_total", totalSize);
@@ -226,15 +231,15 @@ public class AndBasic {
 		// Formatter.formatFileSize(this, totalSize);
 		return map;
 	}
-	
-	static final String parseFileForValue(BufferedReader br,String key) {
+
+	static final String parseFileForValue(BufferedReader br, String key) {
 		try {
 			String str = br.readLine();
 			while (str != null && !str.contains(key)) {
 				str = br.readLine();
 			}
 			// System.out.println("=== 1 = " + str);
-			if(str != null && str.contains(key)) {
+			if (str != null && str.contains(key)) {
 				String[] arr = str.split("\\s+");
 				// System.out.println("=== 2 = " + arr[1]);
 				return arr[1];
@@ -275,11 +280,11 @@ public class AndBasic {
 			stat = new StatFs(path.getPath());
 			map = reStatFs(map, stat, "rom");
 		}
-//		path = Environment.getExternalStorageDirectory();
-//		if (path != null && path.exists()) {
-//			stat = new StatFs(path.getPath());
-//			map = reStatFs(map, stat, "sd_card");
-//		}
+		// path = Environment.getExternalStorageDirectory();
+		// if (path != null && path.exists()) {
+		// stat = new StatFs(path.getPath());
+		// map = reStatFs(map, stat, "sd_card");
+		// }
 		map.put("memory", memory());
 		return map;
 	}
@@ -399,7 +404,7 @@ public class AndBasic {
 		}
 		return cores;
 	}
-	
+
 	static final public void runInMainThread(Runnable r) {
 		Handler hd = new Handler(Looper.getMainLooper());
 		hd.post(r);
