@@ -79,12 +79,16 @@ public class PluginBasic extends AbsU3DListener {
 			break;
 		case "notchSize": {
 			int[] _wh = notchSize();
+			int _w = 0, _h = 0;
 			boolean isNotch = (_wh != null);
 			mapData.put("isNotch", isNotch);
 			if (isNotch) {
-				mapData.put("w", _wh[0]);
-				mapData.put("h", _wh[1]);
+				_w = _wh[0];
+				_h = _wh[1];
 			}
+			mapData.put("w", _w);
+			mapData.put("h", _h);
+			Tools.msg2U3D(CODE_SUCCESS, "", cmd, mapData, this);
 			break;
 		}
 		default:
