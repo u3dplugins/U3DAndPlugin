@@ -53,6 +53,19 @@ public class AndBasic {
 		return Build.VERSION.SDK_INT;
 	}
 
+	static final public AndPhoneType getPhoneType() {
+		String ver = getManufacturer().toLowerCase();
+		if (ver.contains("huawei") || ver.contains("honor"))
+			return AndPhoneType.HuaWei;
+		else if (ver.contains("xiaomi"))
+			return AndPhoneType.XiaoMi;
+		else if (ver.contains("oppo"))
+			return AndPhoneType.OPPO;
+		else if (ver.contains("vivo"))
+			return AndPhoneType.VIVO;
+		return AndPhoneType.NONE;
+	}
+
 	// 转为ip4
 	static final String intIP2StringIP(int ip) {
 		return String.format("%s.%s.%s.%s", (ip & 0xFF), ((ip >> 8) & 0xFF), ((ip >> 16) & 0xFF), ((ip >> 24) & 0xFF));
@@ -122,7 +135,7 @@ public class AndBasic {
 			setPkgName(context);
 		return m_curCPkg;
 	}
-	
+
 	static final public String getPkgName(Class<?> clazz, boolean isRe) {
 		isRe = isRe || (m_curCPkg == null || "".equals(m_curCPkg));
 		if (isRe)

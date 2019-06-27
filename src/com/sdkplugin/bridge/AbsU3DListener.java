@@ -6,7 +6,7 @@ package com.sdkplugin.bridge;
  * 时间 : 2016-05-30 10：30 <br/>
  * 功能 :
  */
-public abstract class AbsU3DListener extends AndU3DBasic implements
+public abstract class AbsU3DListener extends AndU3DTools implements
 		IU3DListener {
 
 	static public final String CODE_SUCCESS = "success";

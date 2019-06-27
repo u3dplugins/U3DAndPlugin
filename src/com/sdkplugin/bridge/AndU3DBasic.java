@@ -1,5 +1,6 @@
 package com.sdkplugin.bridge;
 
+import java.lang.reflect.Method;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -35,6 +36,7 @@ import android.text.format.Formatter;
  * 时间 : 2016-05-30 10：30 <br/>
  * 功能 : 取得android相关的信息
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class AndU3DBasic extends AndBasic {
 
 	// 主要的activity对象
@@ -175,8 +177,7 @@ public class AndU3DBasic extends AndBasic {
 			ms = 200;
 
 		Intent restartIntent = getCurIntent();
-		PendingIntent intent = PendingIntent.getActivity(getCurActivity(), 0, restartIntent,
-				Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		PendingIntent intent = PendingIntent.getActivity(getCurActivity(), 0, restartIntent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		AlarmManager manager = (AlarmManager) getCurActivity().getSystemService(Context.ALARM_SERVICE);
 
@@ -189,12 +190,10 @@ public class AndU3DBasic extends AndBasic {
 			NetworkInfo info = getNetworkInfo();
 			if (info != null && info.isConnected()) {
 				if (info.getType() == ConnectivityManager.TYPE_MOBILE) {// 当前使用2G/3G/4G网络
-					for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en
-							.hasMoreElements();) {
+					for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
 
 						NetworkInterface intf = en.nextElement();
-						for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr
-								.hasMoreElements();) {
+						for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 							InetAddress inetAddress = enumIpAddr.nextElement();
 							if (!inetAddress.isLoopbackAddress()) {
 								if (inetAddress instanceof Inet4Address)
@@ -221,8 +220,7 @@ public class AndU3DBasic extends AndBasic {
 			final String and_id = android.provider.Settings.Secure.ANDROID_ID;
 			String tmDevice = mgr.getDeviceId();
 			String tmSerial = mgr.getSimSerialNumber();
-			String androidId = android.provider.Settings.Secure.getString(getCurActivity().getContentResolver(),
-					and_id);
+			String androidId = android.provider.Settings.Secure.getString(getCurActivity().getContentResolver(), and_id);
 			if (androidId != null && tmDevice != null) {
 				long leastSigBits = ((long) tmDevice.hashCode() << 32);
 				if (tmSerial != null)
@@ -237,13 +235,12 @@ public class AndU3DBasic extends AndBasic {
 	}
 
 	static final public String getPackageName() {
-		return getPkgName(getCurContext(),false);
+		return getPkgName(getCurContext(), false);
 	}
 
 	static final public PackageInfo getPackageInfo() {
 		try {
-			return getCurActivity().getPackageManager().getPackageInfo(getPackageName(),
-					PackageManager.GET_CONFIGURATIONS);
+			return getCurActivity().getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_CONFIGURATIONS);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -332,22 +329,24 @@ public class AndU3DBasic extends AndBasic {
 
 							if (tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_LTE) {
 								try {
-//									int lte_sinr = (Integer) entity.getClass().getMethod("getLteSignalStrength").invoke(entity);
-//									int lte_rsrq = (Integer) entity.getClass().getMethod("getLteRsrq").invoke(entity);
-//									int lte_rssnr = (Integer) entity.getClass().getMethod("getLteRssnr").invoke(entity);
-//									int lte_cqi = (Integer) entity.getClass().getMethod("getLteCqi").invoke(entity);
+									// int lte_sinr = (Integer)
+									// entity.getClass().getMethod("getLteSignalStrength").invoke(entity);
+									// int lte_rsrq = (Integer)
+									// entity.getClass().getMethod("getLteRsrq").invoke(entity);
+									// int lte_rssnr = (Integer)
+									// entity.getClass().getMethod("getLteRssnr").invoke(entity);
+									// int lte_cqi = (Integer)
+									// entity.getClass().getMethod("getLteCqi").invoke(entity);
 									int lte_dbm = (Integer) entity.getClass().getMethod("getDbm").invoke(entity);
 									int lte_level = (Integer) entity.getClass().getMethod("getLteLevel").invoke(entity);
 									int lte_rsrp = (Integer) entity.getClass().getMethod("getLteRsrp").invoke(entity);
 									m_nNetDB = lte_rsrp;
-									System.out.println(String.format("==4G == dbm=%s,level=%s,rsrp=%s", lte_dbm,lte_level,lte_rsrp));
+									System.out.println(String.format("==4G == dbm=%s,level=%s,rsrp=%s", lte_dbm, lte_level, lte_rsrp));
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
-							} else if (tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_HSDPA
-									|| tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_HSPA
-									|| tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_HSUPA
-									|| tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_UMTS) {
+							} else if (tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_HSDPA || tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_HSPA
+									|| tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_HSUPA || tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_UMTS) {
 								// 3G网络最佳范围 >-90dBm 越大越好 ps:中国移动3G获取不到
 								// 返回的无效dbm值是正数（85dbm）
 								// 在这个范围的已经确定是3G，但不同运营商的3G有不同的获取方法，故在此需做判断
@@ -423,7 +422,7 @@ public class AndU3DBasic extends AndBasic {
 		map = getMemoryInfo(map);
 		map = getMemInfo(map);
 		map = getCpuInfo(map);
-		
+
 		long lmt_1mb = 1024 * 1024;
 		long lmt_1 = 3000 * lmt_1mb;
 		long lmt_2 = 1024 * lmt_1mb;
@@ -432,19 +431,19 @@ public class AndU3DBasic extends AndBasic {
 
 		long rom_total = (long) map.get("rom_total");
 		double rom_rate = (double) map.get("rom_rate");
-		if(rom_rate <= 0)
+		if (rom_rate <= 0)
 			rom_rate = 1;
 		long memery = (long) map.get("memory");
 		long max_total = Math.max(rom_total, memery);
 		String strSize = Formatter.formatFileSize(getCurContext(), max_total).toLowerCase();
 		map.put("total_size_str", strSize);
-		
+
 		long am_total = (long) map.get("am_total");
 		strSize = Formatter.formatFileSize(getCurContext(), am_total).toLowerCase();
 		map.put("am_total_str", strSize);
-		
+
 		max_total = Math.min(max_total, am_total);
-		max_total = (long)(max_total / rom_rate);
+		max_total = (long) (max_total / rom_rate);
 		// 3高 ，2中 ，1低
 		int model_type = 2;
 		int numCore = getNumberOfCPUCores();
@@ -456,5 +455,29 @@ public class AndU3DBasic extends AndBasic {
 		map.put("num_core", numCore);
 		map.put("model_type", model_type);
 		return map;
+	}
+
+	static final protected Object _invoke(Context context, String className, String nmGetMethod, Class[] mClass, Object... objs) {
+		Object ret = null;
+		try {
+			ClassLoader cl = context.getClassLoader();
+			Class _c = cl.loadClass(className);
+			Method get = null;
+			if (mClass == null || mClass.length <= 0)
+				get = _c.getMethod(nmGetMethod);
+			else
+				get = _c.getMethod(nmGetMethod, mClass);
+
+			if (objs == null || objs.length <= 0)
+				ret = get.invoke(_c);
+			else
+				ret = get.invoke(_c, objs);
+		} catch (Exception e) {
+		}
+		return ret;
+	}
+
+	static final protected Object _invoke(Context context, String className, String nmGetMethod, Object... objs) {
+		return _invoke(context, className, nmGetMethod, (Class[]) null, objs);
 	}
 }
