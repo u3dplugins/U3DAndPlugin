@@ -61,7 +61,7 @@ public class PluginBasic extends AbsU3DListener {
 	private void handlerJson(final String cmd, JSONObject data) throws Exception {
 		switch (cmd) {
 		case "getPackageInfo":
-			Tools.msg2U3D(Tools.getTextInAssets(getCurContext(), data.getString("filename")), this);
+			Tools.msg2U3D(getTextInAssets(data.getString("filename")), this);
 			break;
 		case "kill":
 			killSelf();
@@ -82,6 +82,7 @@ public class PluginBasic extends AbsU3DListener {
 			int _w = 0, _h = 0;
 			boolean isNotch = (_wh != null);
 			mapData.put("isNotch", isNotch);
+			mapData.put("phoneBrand", getPhoneType());
 			if (isNotch) {
 				_w = _wh[0];
 				_h = _wh[1];

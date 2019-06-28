@@ -1,5 +1,6 @@
 package com.sdkplugin.bridge;
 
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -404,6 +405,7 @@ public class AndU3DBasic extends AndBasic {
 		map.put("imsi", getIMSI());
 		map.put("simOperatorName", getSimOperatorName());
 		map.put("simOperator", getSimOperator());
+		map.put("phoneBrand",getPhoneType()); // 手机品牌
 		return map;
 	}
 
@@ -479,5 +481,24 @@ public class AndU3DBasic extends AndBasic {
 
 	static final protected Object _invoke(Context context, String className, String nmGetMethod, Object... objs) {
 		return _invoke(context, className, nmGetMethod, (Class[]) null, objs);
+	}
+
+	/** assets下面的文件的文本内容 */
+	static final public String getTextInAssets(Context context, String fn) {
+		try {
+			InputStream inStream = context.getAssets().open(fn);
+			int size = inStream.available();
+			byte[] buf = new byte[size];
+			inStream.read(buf);
+			inStream.close();
+			return new String(buf, "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	static final public String getTextInAssets(String fn) {
+		return getTextInAssets(getCurContext(), fn);
 	}
 }

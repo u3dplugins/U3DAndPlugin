@@ -1,6 +1,5 @@
 package com.sdkplugin.tools;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,21 +128,7 @@ public class Tools {
 	static public void msg2U3D(String code, String msg, String cmd, Map<String, Object> data) {
 		msg2U3D(code, msg, cmd, data, null);
 	}
-
-	static public String getTextInAssets(android.content.Context context, String fn) {
-		try {
-			InputStream inStream = context.getAssets().open(fn);
-			int size = inStream.available();
-			byte[] buf = new byte[size];
-			inStream.read(buf);
-			inStream.close();
-			return new String(buf, "UTF-8");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
-
+	
 	static public String ToData(String cmd, String... kvals) throws Exception {
 		JSONObject data = new JSONObject();
 		data.put("cmd", cmd);

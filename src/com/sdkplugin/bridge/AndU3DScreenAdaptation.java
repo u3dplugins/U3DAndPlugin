@@ -91,11 +91,11 @@ public class AndU3DScreenAdaptation extends AndU3DBasic {
 		AndPhoneType aType = getPhoneType();
 		Context context = getCurContext();
 		switch (aType) {
-		case HuaWei:
+		case HUAWEI:
 			if (is_huawei(context))
 				ret = size_huawei(context);
 			break;
-		case XiaoMi:
+		case XIAOMI:
 			if (is_xiaomi(context))
 				ret = size_xiaomi(context);
 			break;

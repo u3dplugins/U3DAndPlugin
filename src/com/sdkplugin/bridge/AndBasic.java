@@ -56,9 +56,9 @@ public class AndBasic {
 	static final public AndPhoneType getPhoneType() {
 		String ver = getManufacturer().toLowerCase();
 		if (ver.contains("huawei") || ver.contains("honor"))
-			return AndPhoneType.HuaWei;
+			return AndPhoneType.HUAWEI;
 		else if (ver.contains("xiaomi"))
-			return AndPhoneType.XiaoMi;
+			return AndPhoneType.XIAOMI;
 		else if (ver.contains("oppo"))
 			return AndPhoneType.OPPO;
 		else if (ver.contains("vivo"))

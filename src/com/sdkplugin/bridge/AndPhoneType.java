@@ -5,8 +5,8 @@ package com.sdkplugin.bridge;
  */
 public enum AndPhoneType {
 	NONE, // 无
-	HuaWei, // 华为
-	XiaoMi, // 小米
+	HUAWEI, // 华为 HuaWei
+	XIAOMI, // 小米 XiaoMi
 	OPPO, // oppo
 	VIVO // vivo
 }
