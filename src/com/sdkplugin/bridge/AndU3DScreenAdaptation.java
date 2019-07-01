@@ -37,7 +37,7 @@ public class AndU3DScreenAdaptation extends AndU3DBasic {
 	 */
 	static final private boolean is_xiaomi(Context context) {
 		boolean ret = false;
-		Object obj = _invoke(context, "android.os.SystemProperties", "get", new Class[] { String.class }, "ro.miui.notch"); // getMethod("get", String.class);
+		Object obj = _invoke(context, "android.os.SystemProperties", "getInt", new Class[] { String.class, int.class }, "ro.miui.notch");
 		if (obj != null)
 			ret = "1".equalsIgnoreCase(obj.toString()) ? true : false;
 		return ret;
