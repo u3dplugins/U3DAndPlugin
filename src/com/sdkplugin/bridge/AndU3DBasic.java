@@ -405,7 +405,7 @@ public class AndU3DBasic extends AndBasic {
 		map.put("imsi", getIMSI());
 		map.put("simOperatorName", getSimOperatorName());
 		map.put("simOperator", getSimOperator());
-		map.put("phoneBrand",getPhoneType()); // 手机品牌
+		map.put("phoneBrand", getPhoneType()); // 手机品牌
 		return map;
 	}
 
@@ -500,5 +500,19 @@ public class AndU3DBasic extends AndBasic {
 
 	static final public String getTextInAssets(String fn) {
 		return getTextInAssets(getCurContext(), fn);
+	}
+
+	static final public float getScale(Context context) {
+		return context.getResources().getDisplayMetrics().density;
+	}
+
+	/** dp -> px 转换 */
+	static final public int dp2px(Context context, float dpVal) {
+		float scale = getScale(context);
+		return (int) (dpVal * scale + 0.5f);
+	}
+
+	static final public int dp2px(float dpVal) {
+		return dp2px(getCurContext(), dpVal);
 	}
 }
