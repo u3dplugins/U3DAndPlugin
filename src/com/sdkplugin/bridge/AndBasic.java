@@ -56,14 +56,18 @@ public class AndBasic {
 	static final public AndPhoneType getPhoneType() {
 		String ver = getManufacturer().toLowerCase();
 		if (ver.contains("huawei") || ver.contains("honor"))
-			return AndPhoneType.HUAWEI;
+			return AndPhoneType.PT_HUAWEI;
 		else if (ver.contains("xiaomi"))
-			return AndPhoneType.XIAOMI;
+			return AndPhoneType.PT_XIAOMI;
 		else if (ver.contains("oppo"))
-			return AndPhoneType.OPPO;
+			return AndPhoneType.PT_OPPO;
 		else if (ver.contains("vivo"))
-			return AndPhoneType.VIVO;
-		return AndPhoneType.NONE;
+			return AndPhoneType.PT_VIVO;
+		return AndPhoneType.PT_NONE;
+	}
+
+	static final public int getPhoneTypeInt() {
+		return getPhoneType().ordinal();
 	}
 
 	// 转为ip4

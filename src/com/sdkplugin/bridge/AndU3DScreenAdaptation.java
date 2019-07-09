@@ -88,26 +88,26 @@ public class AndU3DScreenAdaptation extends AndU3DBasic {
 	/** 刘海width,刘海heigh */
 	static final public int[] notchSize() {
 		int[] ret = null;
-		AndPhoneType aType = getPhoneType();
+		int aType = getPhoneTypeInt();
 		Context context = getCurContext();
 		switch (aType) {
-		case HUAWEI:
+		case 0:
+			break;
+		case 1:
 			if (is_huawei(context))
 				ret = size_huawei(context);
 			break;
-		case XIAOMI:
+		case 2:
 			if (is_xiaomi(context))
 				ret = size_xiaomi(context);
 			break;
-		case VIVO:
-			if (is_vivo(context))
-				ret = size_vivo(context);
-			break;
-		case OPPO:
+		case 3:
 			if (is_oppo(context))
 				ret = size_oppo(context);
 			break;
-		default:
+		case 4:
+			if (is_vivo(context))
+				ret = size_vivo(context);
 			break;
 		}
 		return ret;
