@@ -16,16 +16,17 @@ import android.support.v4.content.ContextCompat;
  * 功能 : 在继承UnityPlayerActivity里面调用
  */
 public class AndPermission {
-	static final String[] perm = new String[] { Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE };
-
 	static int reqCode = 2; // 10000
 
 	// 声明一个集合，在后面的代码中用来存储用户拒绝授权的权
-	static public void initPermissions(Activity activity) {
+	static public void initPermissions(Activity activity, String... permissions) {
+		if (permissions == null || permissions.length <= 0)
+			return;
+
 		List<String> _list = new ArrayList<>();
-		for (int i = 0; i < perm.length; i++) {
-			if (ContextCompat.checkSelfPermission(activity, perm[i]) != PackageManager.PERMISSION_GRANTED) {
-				_list.add(perm[i]);
+		for (int i = 0; i < permissions.length; i++) {
+			if (ContextCompat.checkSelfPermission(activity, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+				_list.add(permissions[i]);
 			}
 		}
 		if (!_list.isEmpty()) {
@@ -33,6 +34,11 @@ public class AndPermission {
 			_arrs = _list.toArray(_arrs);// 将List转为数组
 			ActivityCompat.requestPermissions(activity, _arrs, reqCode);
 		}
+	}
+
+	static public void initPermissions(Activity activity) {
+		String[] perm = { Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE };
+		initPermissions(activity, perm);
 	}
 
 	static public void initPermissions() {
