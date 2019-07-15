@@ -12,8 +12,8 @@ public abstract class AbsU3DListener extends AndU3DTools implements IU3DListener
 	static public final String CODE_WAIT = "wait";
 	static public final String CODE_FAILS = "fails";
 	static public final String CODE_ERROR = "error";
-	static final String fmt_req = "=== %s,request=,msg = [%s]";
-	static final String fmt_res = "=== %s,response=,msg = [%s]";
+	static final String fmt_req = "=== %s req =,msg = [%s]"; // request
+	static final String fmt_res = "=== %s resp =,msg = [%s]"; // response
 
 	protected String ugobjName = "";
 	protected String ugobjMethod = "";
