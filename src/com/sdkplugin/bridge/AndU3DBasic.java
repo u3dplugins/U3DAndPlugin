@@ -405,7 +405,9 @@ public class AndU3DBasic extends AndBasic {
 		map.put("imsi", getIMSI());
 		map.put("simOperatorName", getSimOperatorName());
 		map.put("simOperator", getSimOperator());
-		map.put("phoneBrand", getPhoneType()); // 手机品牌
+		AndPhoneType _pt = getPhoneType();
+		map.put("phoneBrand", _pt);// 手机品牌
+		map.put("phoneBrandInt", _pt.ordinal());
 		return map;
 	}
 

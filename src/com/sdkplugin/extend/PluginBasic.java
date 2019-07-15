@@ -7,6 +7,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import com.sdkplugin.bridge.AbsU3DListener;
+import com.sdkplugin.bridge.AndPhoneType;
 import com.sdkplugin.tools.Tools;
 
 import android.content.Intent;
@@ -82,7 +83,9 @@ public class PluginBasic extends AbsU3DListener {
 			int _w = 0, _h = 0;
 			boolean isNotch = (_wh != null);
 			mapData.put("isNotch", isNotch);
-			mapData.put("phoneBrand", getPhoneType());
+			AndPhoneType _pt = getPhoneType();
+			mapData.put("phoneBrand", _pt); // 手机品牌
+			mapData.put("phoneBrandInt", _pt.ordinal());
 			if (isNotch) {
 				_w = _wh[0];
 				_h = _wh[1];
