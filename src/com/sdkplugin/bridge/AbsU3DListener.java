@@ -12,8 +12,7 @@ public abstract class AbsU3DListener extends AndU3DTools implements IU3DListener
 	static public final String CODE_WAIT = "wait";
 	static public final String CODE_FAILS = "fails";
 	static public final String CODE_ERROR = "error";
-	static final String fmt_req = "=== %s req =,msg = [%s]"; // request
-	static final String fmt_res = "=== %s resp =,msg = [%s]"; // response
+	static final String fmt = "=== %s %s =,msg = [%s]"; // req = request , resp = response
 
 	protected String ugobjName = "";
 	protected String ugobjMethod = "";
@@ -33,7 +32,7 @@ public abstract class AbsU3DListener extends AndU3DTools implements IU3DListener
 		if (level < logLevel || msg == null || msg.length() <= 0)
 			return;
 
-		String _v = String.format(isRequest ? fmt_req : fmt_res, logHead, msg);
+		String _v = String.format(fmt, logHead, isRequest ? "req" : "resp", msg);
 		System.out.println(_v);
 	}
 
