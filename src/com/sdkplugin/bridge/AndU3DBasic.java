@@ -78,7 +78,11 @@ public class AndU3DBasic extends AndBasic {
 	}
 
 	static final public TelephonyManager getTelephonyManager() {
-		return (TelephonyManager) getCurActivity().getSystemService(Context.TELEPHONY_SERVICE);
+		try {
+			return (TelephonyManager) getCurActivity().getSystemService(Context.TELEPHONY_SERVICE);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	static final public WifiManager getWifiManager() {
@@ -142,8 +146,10 @@ public class AndU3DBasic extends AndBasic {
 	}
 
 	static final String getNetWorkStatusByMobile() {
-		TelephonyManager telephonyManager = getTelephonyManager();
-		switch (telephonyManager.getNetworkType()) {
+		TelephonyManager mgr = getTelephonyManager();
+		if(mgr == null)
+			return "none";
+		switch (mgr.getNetworkType()) {
 		case TelephonyManager.NETWORK_TYPE_GPRS:
 		case TelephonyManager.NETWORK_TYPE_EDGE:
 		case TelephonyManager.NETWORK_TYPE_CDMA:
@@ -230,7 +236,6 @@ public class AndU3DBasic extends AndBasic {
 				return deviceUuid.toString();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return UUID.randomUUID().toString();
 	}
@@ -327,6 +332,8 @@ public class AndU3DBasic extends AndBasic {
 							break;
 						case ConnectivityManager.TYPE_MOBILE:
 							TelephonyManager tm = getTelephonyManager();
+							if(tm == null)
+								break;
 
 							if (tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_LTE) {
 								try {
