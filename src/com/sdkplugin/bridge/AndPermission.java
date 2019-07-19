@@ -15,8 +15,13 @@ import android.support.v4.content.ContextCompat;
  * 时间 : 2019-07-13 13：30 <br/>
  * 功能 : 在继承UnityPlayerActivity里面调用
  */
-public class AndPermission {
+public class AndPermission extends AndBasic {
 	static int reqCode = 2; // 10000
+
+	// 是否授权
+	static public boolean isGrant(Activity activity, String permission) {
+		return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
+	}
 
 	// 声明一个集合，在后面的代码中用来存储用户拒绝授权的权
 	static public void initPermissions(Activity activity, String... permissions) {
@@ -25,7 +30,7 @@ public class AndPermission {
 
 		List<String> _list = new ArrayList<>();
 		for (int i = 0; i < permissions.length; i++) {
-			if (ContextCompat.checkSelfPermission(activity, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+			if (!isGrant(activity, permissions[i])) {
 				_list.add(permissions[i]);
 			}
 		}
@@ -41,10 +46,6 @@ public class AndPermission {
 		initPermissions(activity, perm);
 	}
 
-	static public void initPermissions() {
-		initPermissions(AndU3DBasic.getCurActivity());
-	}
-
 	static public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults, Activity activity) {
 		if (reqCode == requestCode) {
 			for (int i = 0; i < grantResults.length; i++) {
@@ -57,9 +58,5 @@ public class AndPermission {
 				}
 			}
 		}
-	}
-
-	static public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		onRequestPermissionsResult(requestCode, permissions, grantResults, AndU3DBasic.getCurActivity());
 	}
 }

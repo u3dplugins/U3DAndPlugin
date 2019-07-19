@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import com.unity3d.player.UnityPlayer;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
@@ -38,7 +39,7 @@ import android.text.format.Formatter;
  * 功能 : 取得android相关的信息
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class AndU3DBasic extends AndBasic {
+public class AndU3DBasic extends AndPermission {
 
 	// 主要的activity对象
 	static public Activity m_curActivity = null;
@@ -79,10 +80,12 @@ public class AndU3DBasic extends AndBasic {
 
 	static final public TelephonyManager getTelephonyManager() {
 		try {
-			return (TelephonyManager) getCurActivity().getSystemService(Context.TELEPHONY_SERVICE);
+			if (isGrant(Manifest.permission.READ_PHONE_STATE)) {
+				return (TelephonyManager) getCurActivity().getSystemService(Context.TELEPHONY_SERVICE);
+			}
 		} catch (Exception e) {
-			return null;
 		}
+		return null;
 	}
 
 	static final public WifiManager getWifiManager() {
@@ -147,7 +150,7 @@ public class AndU3DBasic extends AndBasic {
 
 	static final String getNetWorkStatusByMobile() {
 		TelephonyManager mgr = getTelephonyManager();
-		if(mgr == null)
+		if (mgr == null)
 			return "none";
 		switch (mgr.getNetworkType()) {
 		case TelephonyManager.NETWORK_TYPE_GPRS:
@@ -332,7 +335,7 @@ public class AndU3DBasic extends AndBasic {
 							break;
 						case ConnectivityManager.TYPE_MOBILE:
 							TelephonyManager tm = getTelephonyManager();
-							if(tm == null)
+							if (tm == null)
 								break;
 
 							if (tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_LTE) {
@@ -523,5 +526,17 @@ public class AndU3DBasic extends AndBasic {
 
 	static final public int dp2px(float dpVal) {
 		return dp2px(getCurContext(), dpVal);
+	}
+
+	static public void initPermissions() {
+		initPermissions(getCurActivity());
+	}
+
+	static public boolean isGrant(String permission) {
+		return isGrant(getCurActivity(), permission);
+	}
+
+	static public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		onRequestPermissionsResult(requestCode, permissions, grantResults, getCurActivity());
 	}
 }
