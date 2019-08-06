@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import com.sdkplugin.bridge.AbsU3DListener;
 import com.sdkplugin.bridge.AndPhoneType;
-import com.sdkplugin.tools.Tools;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -52,7 +51,7 @@ public class PluginBasic extends AbsU3DListener {
 				throw ex;
 			} else {
 				ex.printStackTrace();
-				Tools.msg2U3D(CODE_ERROR, ex.getMessage(), obj, this);
+				msg2U3D(CODE_ERROR, ex.getMessage(), obj, this);
 			}
 		} finally {
 			reInit();
@@ -62,7 +61,7 @@ public class PluginBasic extends AbsU3DListener {
 	private void handlerJson(final String cmd, JSONObject data) throws Exception {
 		switch (cmd) {
 		case "getPackageInfo":
-			Tools.msg2U3D(getTextInAssets(data.getString("filename")), this);
+			msg2U3D(getTextInAssets(data.getString("filename")), this);
 			break;
 		case "kill":
 			killSelf();
@@ -73,10 +72,10 @@ public class PluginBasic extends AbsU3DListener {
 			}
 			break;
 		case "phoneInfo":
-			Tools.msg2U3D(CODE_SUCCESS, "", cmd, getPhoneState(mapData), this);
+			msg2U3D(CODE_SUCCESS, "", cmd, getPhoneState(mapData), this);
 			break;
 		case "phone_mem_cpu":
-			Tools.msg2U3D(CODE_SUCCESS, "", cmd, getMemCpuInfo(mapData), this);
+			msg2U3D(CODE_SUCCESS, "", cmd, getMemCpuInfo(mapData), this);
 			break;
 		case "notchSize": {
 			int[] _wh = notchSize();
@@ -92,7 +91,7 @@ public class PluginBasic extends AbsU3DListener {
 			}
 			mapData.put("w", _w);
 			mapData.put("h", _h);
-			Tools.msg2U3D(CODE_SUCCESS, "", cmd, mapData, this);
+			msg2U3D(CODE_SUCCESS, "", cmd, mapData, this);
 			break;
 		}
 		default:
@@ -108,11 +107,11 @@ public class PluginBasic extends AbsU3DListener {
 		case "mapInfo":
 			mapData.put("code", CODE_SUCCESS);
 			mapData.put("val", "这是一个demo");
-			Tools.msg2U3D(mapData);
+			msg2U3D(mapData);
 			break;
 		case "jsonInfo":
-			jsonData = Tools.ToData(cmd, "val", "这是一个demo");
-			Tools.msg2U3D(CODE_SUCCESS, "", jsonData);
+			jsonData = toData(cmd, "val", "这是一个demo");
+			msg2U3D(CODE_SUCCESS, "", jsonData);
 			break;
 		case "isInApk":
 			// 判断是否安装了某个apk
@@ -123,7 +122,7 @@ public class PluginBasic extends AbsU3DListener {
 				isVal1 = isInstalledApk(strVal1); // "com.facebook.katana"
 			}
 			data.put("isInApk", isVal1);
-			Tools.msg2U3D(CODE_SUCCESS, "", cmd, data, this);
+			msg2U3D(CODE_SUCCESS, "", cmd, data, this);
 			break;
 		case "shareImg":
 			// 图片分享
@@ -140,10 +139,10 @@ public class PluginBasic extends AbsU3DListener {
 				}
 			}
 			mapData.put("isState", isVal1);
-			Tools.msg2U3D(CODE_SUCCESS, "", cmd, mapData, this);
+			msg2U3D(CODE_SUCCESS, "", cmd, mapData, this);
 			break;
 		default:
-			Tools.msg2U3D(CODE_SUCCESS, "", String.format("{\"cmd\":\"%s\",\"val\":\"这是一个demo\"}", cmd), this);
+			msg2U3D(CODE_SUCCESS, "", String.format("{\"cmd\":\"%s\",\"val\":\"这是一个demo\"}", cmd), this);
 			break;
 		}
 	}
