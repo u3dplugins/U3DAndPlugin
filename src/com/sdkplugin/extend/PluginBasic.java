@@ -20,7 +20,7 @@ import android.net.Uri;
  */
 public class PluginBasic extends AbsU3DListener {
 
-	protected Map<String, Object> mapData = new HashMap<String, Object>();
+	public Map<String, Object> mapData = new HashMap<String, Object>();
 	protected String jsonData = "";
 
 	private void reInit() {
