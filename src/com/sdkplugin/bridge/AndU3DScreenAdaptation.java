@@ -120,7 +120,8 @@ public class AndU3DScreenAdaptation extends AndU3DBasic {
 			return;
 		
 		View view = getTopView();
-		int _px = dp2px(w_h[1]);
+		int _px = w_h[1];
+		// System.out.println(String.format("=== px = [%s],h = [%s]", _px,w_h[1]));
 		view.setPadding(_px, 0, _px, 0);
 	}
 }
