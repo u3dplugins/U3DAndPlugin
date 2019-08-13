@@ -31,6 +31,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
+import android.view.View;
 
 /**
  * 类名 : android u3d 基础类 <br/>
@@ -538,5 +539,17 @@ public class AndU3DBasic extends AndPermission {
 
 	static public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 		onRequestPermissionsResult(requestCode, permissions, grantResults, getCurActivity());
+	}
+
+	static final public int[] getScreenWidthAndHeight() {
+		return getScreenWidthAndHeight(getCurContext());
+	}
+
+	static final public View getTopView() {
+		return getTopView(getCurActivity());
+	}
+
+	static final public View getCurView() {
+		return getCurView(getCurActivity());
 	}
 }

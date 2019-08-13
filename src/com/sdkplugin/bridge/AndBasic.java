@@ -7,12 +7,16 @@ import java.io.FileReader;
 import java.net.NetworkInterface;
 import java.util.Map;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.StatFs;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.WindowManager;
 
 /**
  * 类名 : android 基础类 <br/>
@@ -425,5 +429,23 @@ public class AndBasic {
 	static final public void runInMainThread(Runnable r) {
 		Handler hd = new Handler(Looper.getMainLooper());
 		hd.post(r);
+	}
+
+	static final public int[] getScreenWidthAndHeight(Context ctx) {
+		WindowManager mWm = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
+		DisplayMetrics dm = new DisplayMetrics();
+		// 获取屏幕信息
+		mWm.getDefaultDisplay().getMetrics(dm);
+		int screenWidth = dm.widthPixels;
+		int screenHeigh = dm.heightPixels;
+		return new int[] { screenWidth, screenHeigh };
+	}
+	
+	static final public View getTopView(Activity act) {
+		return act.getWindow().getDecorView();
+	}
+	
+	static final public View getCurView(Activity act) {
+		return act.getCurrentFocus();
 	}
 }

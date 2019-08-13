@@ -2,6 +2,7 @@ package com.sdkplugin.bridge;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.view.View;
 
 /**
  * 类名 : 屏幕适配 <br/>
@@ -111,5 +112,15 @@ public class AndU3DScreenAdaptation extends AndU3DBasic {
 			break;
 		}
 		return ret;
+	}
+	
+	static final public void doNotch() {
+		int[] w_h = notchSize();
+		if(w_h == null)
+			return;
+		
+		View view = getTopView();
+		int _px = dp2px(w_h[1]);
+		view.setPadding(_px, 0, _px, 0);
 	}
 }
