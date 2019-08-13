@@ -552,4 +552,8 @@ public class AndU3DBasic extends AndPermission {
 	static final public View getCurView() {
 		return getCurView(getCurActivity());
 	}
+
+	static final public int getRotation() {
+		return getRotation(getCurContext());
+	}
 }

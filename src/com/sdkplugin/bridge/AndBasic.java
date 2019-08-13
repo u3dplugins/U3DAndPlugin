@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.StatFs;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -431,21 +432,35 @@ public class AndBasic {
 		hd.post(r);
 	}
 
+	static final public WindowManager getWinMgr(Context ctx) {
+		return (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
+	}
+
+	static final public Display getWinDisplay(Context ctx) {
+		return getWinMgr(ctx).getDefaultDisplay();
+	}
+
 	static final public int[] getScreenWidthAndHeight(Context ctx) {
-		WindowManager mWm = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
+		Display mWd = getWinDisplay(ctx);
 		DisplayMetrics dm = new DisplayMetrics();
 		// 获取屏幕信息
-		mWm.getDefaultDisplay().getMetrics(dm);
+		mWd.getMetrics(dm);
 		int screenWidth = dm.widthPixels;
 		int screenHeigh = dm.heightPixels;
 		return new int[] { screenWidth, screenHeigh };
 	}
-	
+
 	static final public View getTopView(Activity act) {
 		return act.getWindow().getDecorView();
 	}
-	
+
 	static final public View getCurView(Activity act) {
 		return act.getCurrentFocus();
+	}
+
+	// rotation: 0（Surface.ROTATION_0---竖屏正向）、1（Surface.ROTATION_90---横屏正向）、
+	// 2（Surface.ROTATION_180---竖屏反向）、3（Surface.ROTATION_270---横屏反向）
+	static final public int getRotation(Context ctx) {
+		return getWinDisplay(ctx).getRotation();
 	}
 }
