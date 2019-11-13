@@ -230,7 +230,7 @@ public class AndBasic {
 	static final public String getObbDir(Context context, boolean isAbs) {
 		File _fl = getObbFile(context);
 		String _path = "";
-		if (_fl == null)
+		if (_fl == null || !_fl.exists())
 			return _path;
 		if (isAbs)
 			_path = _fl.getAbsolutePath();
