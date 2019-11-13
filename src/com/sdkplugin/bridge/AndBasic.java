@@ -221,6 +221,24 @@ public class AndBasic {
 		return outDir(_path, false);
 	}
 
+	static final public File getObbFile(Context context) {
+		if (context == null)
+			return null;
+		return context.getObbDir();
+	}
+
+	static final public String getObbDir(Context context, boolean isAbs) {
+		File _fl = getObbFile(context);
+		String _path = "";
+		if (_fl == null)
+			return _path;
+		if (isAbs)
+			_path = _fl.getAbsolutePath();
+		else
+			_path = _fl.getPath();
+		return outDir(_path, true);
+	}
+
 	static protected final void recalcNetDBLevel() {
 		if (m_nNetDB > -20) {
 			// 25 默认规格

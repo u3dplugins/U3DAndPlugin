@@ -21,10 +21,8 @@ import android.net.Uri;
 public class PluginBasic extends AbsU3DListener {
 
 	public Map<String, Object> mapData = new HashMap<String, Object>();
-	protected String jsonData = "";
 
 	private void reInit() {
-		jsonData = "";
 		mapData.clear();
 	}
 
@@ -59,6 +57,8 @@ public class PluginBasic extends AbsU3DListener {
 	}
 
 	private void handlerJson(final String cmd, JSONObject data) throws Exception {
+		String strVal1 = "", strVal2 = "";
+		boolean isVal1 = false;
 		switch (cmd) {
 		case "getPackageInfo":
 			msg2U3D(getTextInAssets(data.getString("filename")), this);
@@ -80,12 +80,12 @@ public class PluginBasic extends AbsU3DListener {
 		case "notchSize": {
 			int[] _wh = notchSize();
 			int _w = 0, _h = 0;
-			boolean isNotch = (_wh != null);
-			mapData.put("isNotch", isNotch);
+			isVal1 = (_wh != null);
+			mapData.put("isNotch", isVal1);
 			AndPhoneType _pt = getPhoneType();
 			mapData.put("phoneBrand", _pt); // 手机品牌
 			mapData.put("phoneBrandInt", _pt.ordinal());
-			if (isNotch) {
+			if (isVal1) {
 				_w = _wh[0];
 				_h = _wh[1];
 			}
@@ -94,25 +94,6 @@ public class PluginBasic extends AbsU3DListener {
 			msg2U3D(CODE_SUCCESS, "", cmd, mapData, this);
 			break;
 		}
-		default:
-			handlerMsg(cmd, data);
-			break;
-		}
-	}
-
-	protected void handlerMsg(final String cmd, JSONObject data) throws Exception {
-		String strVal1 = "", strVal2 = "";
-		boolean isVal1 = false;
-		switch (cmd) {
-		case "mapInfo":
-			mapData.put("code", CODE_SUCCESS);
-			mapData.put("val", "这是一个demo");
-			msg2U3D(mapData);
-			break;
-		case "jsonInfo":
-			jsonData = toData(cmd, "val", "这是一个demo");
-			msg2U3D(CODE_SUCCESS, "", jsonData);
-			break;
 		case "isInApk":
 			// 判断是否安装了某个apk
 			if (data.has("pkgName")) {
@@ -140,6 +121,22 @@ public class PluginBasic extends AbsU3DListener {
 			}
 			mapData.put("isState", isVal1);
 			msg2U3D(CODE_SUCCESS, "", cmd, mapData, this);
+			break;
+		default:
+			handlerMsg(cmd, data);
+			break;
+		}
+	}
+
+	protected void handlerMsg(final String cmd, JSONObject data) throws Exception {
+		switch (cmd) {
+		case "map_demo":
+			mapData.put("code", CODE_SUCCESS);
+			mapData.put("val", "这是一个demo");
+			msg2U3D(mapData);
+			break;
+		case "json_demo":
+			msg2U3D(CODE_SUCCESS, "", toData(cmd, "val", "这是一个demo"));
 			break;
 		default:
 			msg2U3D(CODE_SUCCESS, "", String.format("{\"cmd\":\"%s\",\"val\":\"这是一个demo\"}", cmd), this);

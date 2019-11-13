@@ -556,4 +556,8 @@ public class AndU3DBasic extends AndPermission {
 	static final public int getRotation() {
 		return getRotation(getCurContext());
 	}
+
+	static final public String getObbDir(boolean isAbs) {
+		return getObbDir(getCurContext(), isAbs);
+	}
 }
