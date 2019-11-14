@@ -244,13 +244,13 @@ public class AndU3DBasic extends AndPermission {
 		return UUID.randomUUID().toString();
 	}
 
-	static final public String getPackageName() {
-		return getPkgName(getCurContext(), false);
+	static final public String getPkgName() {
+		return getPkgName(getCurContext());
 	}
 
 	static final public PackageInfo getPackageInfo() {
 		try {
-			return getCurActivity().getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_CONFIGURATIONS);
+			return getCurActivity().getPackageManager().getPackageInfo(getPkgName(), PackageManager.GET_CONFIGURATIONS);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -559,5 +559,9 @@ public class AndU3DBasic extends AndPermission {
 
 	static final public String getObbDir(boolean isAbs) {
 		return getObbDir(getCurContext(), isAbs);
+	}
+
+	static final public String getObbPath(boolean isAbs) {
+		return String.format("%smain.%s.%s.obb", getObbDir(isAbs), getVersionCode(), getPkgName());
 	}
 }

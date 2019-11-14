@@ -26,40 +26,38 @@ import android.view.WindowManager;
  * 功能 : 取得android相关的信息
  */
 public class AndBasic {
-	// 当前包体的package
-	static public String m_curCPkg = "";
 	// 网路信号强度
 	static protected int m_nNetDB = 0;
 	// 网路信号强度等级 (4:GREAT,3:GOOD,2:MODERATE,1:POOR,0:NONE_OR_UNKNOWN);
 	static protected int m_nNetDBLevel = 0;
 
 	// 手机型号
-	static final public String getModel() {
+	static final public String getBModel() {
 		return Build.MODEL;
 	}
 
 	// 系统定制商
-	static final public String getDeviceBrand() {
+	static final public String getBBrand() {
 		return Build.BRAND;
 	}
 
 	// 硬件制造商
-	static final public String getManufacturer() {
+	static final public String getBManufacturer() {
 		return Build.MANUFACTURER;
 	}
 
 	// 获取系统版本字符串。如4.1.2 或2.2 或2.3等
-	static final public String getVersion() {
+	static final public String getBVRelease() {
 		return Build.VERSION.RELEASE;
 	}
 
 	// 系统的API级别 数字表示
-	static final public int getAndVersion() {
+	static final public int getBVSDK() {
 		return Build.VERSION.SDK_INT;
 	}
 
 	static final public AndPhoneType getPhoneType() {
-		String ver = getManufacturer().toLowerCase();
+		String ver = getBManufacturer().toLowerCase();
 		if (ver.contains("huawei") || ver.contains("honor"))
 			return AndPhoneType.PT_HUAWEI;
 		else if (ver.contains("xiaomi"))
@@ -122,34 +120,22 @@ public class AndBasic {
 		return macAddress;
 	}
 
-	static final public void setPkgName(Context context) {
-		if (context != null)
-			m_curCPkg = context.getPackageName();
-	}
-
-	static final public void setPkgName(Class<?> clazz) {
-		if (clazz != null)
-			m_curCPkg = clazz.getPackage().getName();
-	}
-
 	static final public void setPkgName(Object obj) {
 		if (obj != null)
 			setPkgName(obj.getClass());
 	}
 
 	// pkg = Package
-	static final public String getPkgName(Context context, boolean isRe) {
-		isRe = isRe || (m_curCPkg == null || "".equals(m_curCPkg));
-		if (isRe)
-			setPkgName(context);
-		return m_curCPkg;
+	static final public String getPkgName(Context context) {
+		if (context != null)
+			return context.getPackageName();
+		return "";
 	}
 
-	static final public String getPkgName(Class<?> clazz, boolean isRe) {
-		isRe = isRe || (m_curCPkg == null || "".equals(m_curCPkg));
-		if (isRe)
-			setPkgName(clazz);
-		return m_curCPkg;
+	static final public String getPkgName(Class<?> clazz) {
+		if (clazz != null)
+			return clazz.getPackage().getName();
+		return "";
 	}
 
 	/**
@@ -230,7 +216,7 @@ public class AndBasic {
 	static final public String getObbDir(Context context, boolean isAbs) {
 		File _fl = getObbFile(context);
 		String _path = "";
-		if (_fl == null || !_fl.exists())
+		if (_fl == null)
 			return _path;
 		if (isAbs)
 			_path = _fl.getAbsolutePath();
