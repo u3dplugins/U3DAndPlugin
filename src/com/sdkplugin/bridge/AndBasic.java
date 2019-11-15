@@ -221,6 +221,7 @@ public class AndBasic {
 			_path = _fl.getAbsolutePath();
 		else
 			_path = _fl.getPath();
+		// 经过手机测试 这两个函数的值一样
 		return outDir(_path, false);
 	}
 
