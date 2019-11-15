@@ -172,7 +172,6 @@ public class AndBasic {
 
 		if (isRep) {
 			fp = fp.replaceAll("\\\\", "/");
-			fp = fp.replaceAll("\\", "/");
 		}
 
 		if (!fp.endsWith("/") && !fp.endsWith("\\")) {
@@ -222,7 +221,7 @@ public class AndBasic {
 			_path = _fl.getAbsolutePath();
 		else
 			_path = _fl.getPath();
-		return outDir(_path, true);
+		return outDir(_path, false);
 	}
 
 	static protected final void recalcNetDBLevel() {
