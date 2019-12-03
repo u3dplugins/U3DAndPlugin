@@ -65,7 +65,7 @@ public class EUP_JavaBridge : MonoSingleton<EUP_JavaBridge> {
 		return jo;
 	}
 	
-	public T call4Listener<T>(string classListener,string methodName, params object[] args){
+	T call4Listener<T>(string classListener,string methodName, params object[] args){
 		try{
 			AndroidJavaObject jo = GetListener(classListener);
 			if(jo != null){
@@ -111,6 +111,14 @@ public class EUP_JavaBridge : MonoSingleton<EUP_JavaBridge> {
 		} else {
 			Debug.LogWarning("SendToJava: jcBridge is null.");
 		}
+#endif
+	}
+	
+	public T call<T>(string classListener,string methodName, params object[] args){
+#if UNITY_ANDROID
+		return call4Listener<T>(classListener,methodName,args);
+#else
+		return default(T);
 #endif
 	}
 
