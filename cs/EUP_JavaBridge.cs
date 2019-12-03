@@ -64,6 +64,17 @@ public class EUP_JavaBridge : MonoSingleton<EUP_JavaBridge> {
 		}
 		return jo;
 	}
+	
+	public T call4Listener<T>(string classListener,string methodName, params object[] args){
+		try{
+			AndroidJavaObject jo = GetListener(classListener);
+			if(jo != null){
+				return jo.Call<T>(methodName,args);
+			}
+		}catch{
+		}
+		return default(T);
+	}
 #endif
 	
 	public void Init( string classListener,System.Action<string> onResult ) {
