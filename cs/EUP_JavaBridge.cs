@@ -43,31 +43,31 @@ public class EUP_JavaBridge : MonoSingleton<EUP_JavaBridge> {
 	}
 
 #if UNITY_ANDROID
-	AndroidJavaObject GetListener(string classListener){
-		this._clsListener = classListener;
-		if(dicJo.ContainsKey(classListener)){
-			return (AndroidJavaObject)dicJo[classListener];
+	AndroidJavaObject GetListener(string className){
+		this._clsListener = className;
+		if(dicJo.ContainsKey(className)){
+			return (AndroidJavaObject)dicJo[className];
 		}
 		AndroidJavaObject jo = null;
 		try{
-			AndroidJavaClass _jc = new AndroidJavaClass( classListener );
+			AndroidJavaClass _jc = new AndroidJavaClass( className );
 			jo = _jc.CallStatic<AndroidJavaObject>("getInstance");
 		}catch{
 			jo = null;
 		}
 		try{
 			if(jo == null){
-				jo = new AndroidJavaObject(classListener);
+				jo = new AndroidJavaObject(className);
 			}
-			dicJo.Add(classListener,jo);
+			dicJo.Add(className,jo);
 		}catch{
 		}
 		return jo;
 	}
 	
-	T call4Listener<T>(string classListener,string methodName, params object[] args){
+	T call4Listener<T>(string className,string methodName, params object[] args){
 		try{
-			AndroidJavaObject jo = GetListener(classListener);
+			AndroidJavaObject jo = GetListener(className);
 			if(jo != null){
 				return jo.Call<T>(methodName,args);
 			}
@@ -75,21 +75,52 @@ public class EUP_JavaBridge : MonoSingleton<EUP_JavaBridge> {
 		}
 		return default(T);
 	}
+	
+	void call4Listener(string className,string methodName, params object[] args){
+		try{
+			AndroidJavaObject jo = GetListener(className);
+			if(jo != null){
+				jo.Call(methodName,args);
+			}
+		}catch{
+		}
+	}
+	
+	T callStatic4Class<T>(string className,string methodName, params object[] args){
+		try{
+			AndroidJavaClass _jc = new AndroidJavaClass( className );
+			if(_jc != null){
+				return _jc.CallStatic<T>(methodName,args);
+			}
+		}catch{
+		}
+		return default(T);
+	}
+	
+	void callStatic4Class(string className,string methodName, params object[] args){
+		try{
+			AndroidJavaClass _jc = new AndroidJavaClass( className );
+			if(_jc != null){
+				_jc.CallStatic(methodName,args);
+			}
+		}catch{
+		}
+	}
 #endif
 	
-	public void Init( string classListener,System.Action<string> onResult ) {
+	public void Init( string className,System.Action<string> onResult ) {
 		this._callBack = onResult;
 #if UNITY_ANDROID
 		InitBridge();
-		if(string.IsNullOrEmpty(classListener)){
+		if(string.IsNullOrEmpty(className)){
 			jcBridge.CallStatic(NM_JAVA_METHOD_INITPARS,NM_Gobj,NM_ON_RESULT_FUNC);
 			return;
 		}
 		
-		if(classListener.Equals(this._clsListener))
+		if(className.Equals(this._clsListener))
 			return;
 		
-		AndroidJavaObject joListener = GetListener(classListener);
+		AndroidJavaObject joListener = GetListener(className);
 
 		if(joListener == null){
 			jcBridge.CallStatic(NM_JAVA_METHOD_INITPARS,NM_Gobj,NM_ON_RESULT_FUNC);
@@ -114,11 +145,31 @@ public class EUP_JavaBridge : MonoSingleton<EUP_JavaBridge> {
 #endif
 	}
 	
-	public T call<T>(string classListener,string methodName, params object[] args){
+	public T call<T>(string className,string methodName, params object[] args){
 #if UNITY_ANDROID
-		return call4Listener<T>(classListener,methodName,args);
+		return call4Listener<T>(className,methodName,args);
 #else
 		return default(T);
+#endif
+	}
+	
+	public void call(string className,string methodName, params object[] args){
+#if UNITY_ANDROID
+		call4Listener(className,methodName,args);
+#endif
+	}
+	
+	public T callStatic<T>(string className,string methodName, params object[] args){
+#if UNITY_ANDROID
+		return callStatic4Class<T>(className,methodName,args);
+#else
+		return default(T);
+#endif
+	}
+	
+	public void callStatic(string className,string methodName, params object[] args){
+#if UNITY_ANDROID
+		callStatic4Class(className,methodName,args);
 #endif
 	}
 
