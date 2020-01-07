@@ -32,6 +32,7 @@ import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.view.View;
+import android.view.Window;
 
 /**
  * 类名 : android u3d 基础类 <br/>
@@ -39,7 +40,7 @@ import android.view.View;
  * 时间 : 2016-05-30 10：30 <br/>
  * 功能 : 取得android相关的信息
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({ "all"})
 public class AndU3DBasic extends AndPermission {
 
 	// 主要的activity对象
@@ -563,5 +564,9 @@ public class AndU3DBasic extends AndPermission {
 
 	static final public String getObbPath(boolean isAbs) {
 		return String.format("%smain.%s.%s.obb", getObbDir(isAbs), getVersionCode(), getPkgName());
+	}
+
+	static final public Window getWindow() {
+		return getWindow(getCurActivity());
 	}
 }

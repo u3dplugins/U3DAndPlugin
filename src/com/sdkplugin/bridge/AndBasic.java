@@ -17,6 +17,7 @@ import android.os.StatFs;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 
 /**
@@ -454,8 +455,12 @@ public class AndBasic {
 		return new int[] { screenWidth, screenHeigh };
 	}
 
+	static final public Window getWindow(Activity act) {
+		return act.getWindow();
+	}
+
 	static final public View getTopView(Activity act) {
-		return act.getWindow().getDecorView();
+		return getWindow(act).getDecorView();
 	}
 
 	static final public View getCurView(Activity act) {

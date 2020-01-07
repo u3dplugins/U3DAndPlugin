@@ -2,7 +2,9 @@ package com.sdkplugin.bridge;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.view.View;
+import android.view.WindowManager;
 
 /**
  * 类名 : 屏幕适配 <br/>
@@ -113,15 +115,33 @@ public class AndU3DScreenAdaptation extends AndU3DBasic {
 		}
 		return ret;
 	}
-	
+
 	static final public void doNotch() {
 		int[] w_h = notchSize();
-		if(w_h == null)
+		if (w_h == null)
 			return;
-		
+
+		if (andSDK_INT28())
+			return;
+
 		View view = getTopView();
 		int _px = w_h[1];
 		// System.out.println(String.format("=== px = [%s],h = [%s]", _px,w_h[1]));
 		view.setPadding(_px, 0, _px, 0);
+	}
+
+	static final private boolean andSDK_INT28() {
+		try {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+				// Android P利用官方提供的API适配
+				WindowManager.LayoutParams lp = getWindow().getAttributes();
+				// 始终允许窗口延伸到屏幕短边上的缺口区域
+				lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+				getWindow().setAttributes(lp);
+				return true;
+			}
+		} catch (Exception e) {
+		}
+		return false;
 	}
 }
