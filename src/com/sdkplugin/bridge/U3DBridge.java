@@ -71,4 +71,8 @@ public class U3DBridge {
 	static public void response(String json) {
 		response(null, json);
 	}
+
+	static final public boolean isInAssets(String fn) {
+		return com.sdkplugin.extend.PluginBasic.isInAssets(fn);
+	}
 }
