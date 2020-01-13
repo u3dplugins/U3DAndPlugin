@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.net.NetworkInterface;
 import java.util.Map;
 
@@ -72,6 +73,38 @@ public class AndBasic {
 
 	static final public int getPhoneTypeInt() {
 		return getPhoneType().ordinal();
+	}
+
+	static final public byte[] getInAssets(Context context, String fn) {
+		try (InputStream inStream = context.getAssets().open(fn);) {
+			int size = inStream.available();
+			byte[] buf = new byte[size];
+			inStream.read(buf);
+			inStream.close();
+			return buf;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/** assets下面的文件 是否存在 */
+	static final public boolean isInAssets(Context context, String fn) {
+		byte[] buf = getInAssets(context, fn);
+		return (buf != null && buf.length > 0);
+	}
+
+	/** assets下面的文件的文本内容 */
+	static final public String getTextInAssets(Context context, String fn) {
+		try {
+			byte[] buf = getInAssets(context, fn);
+			if (buf != null && buf.length > 0) {
+				return new String(buf, "UTF-8");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	// 转为ip4

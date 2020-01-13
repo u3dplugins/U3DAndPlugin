@@ -40,7 +40,7 @@ import android.view.Window;
  * 时间 : 2016-05-30 10：30 <br/>
  * 功能 : 取得android相关的信息
  */
-@SuppressWarnings({ "all"})
+@SuppressWarnings({ "all" })
 public class AndU3DBasic extends AndPermission {
 
 	// 主要的activity对象
@@ -497,23 +497,12 @@ public class AndU3DBasic extends AndPermission {
 		return _invoke(context, className, nmGetMethod, (Class[]) null, objs);
 	}
 
-	/** assets下面的文件的文本内容 */
-	static final public String getTextInAssets(Context context, String fn) {
-		try {
-			InputStream inStream = context.getAssets().open(fn);
-			int size = inStream.available();
-			byte[] buf = new byte[size];
-			inStream.read(buf);
-			inStream.close();
-			return new String(buf, "UTF-8");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
-
 	static final public String getTextInAssets(String fn) {
 		return getTextInAssets(getCurContext(), fn);
+	}
+
+	static final public boolean isInAssets(String fn) {
+		return isInAssets(getCurContext(), fn);
 	}
 
 	static final public float getScale(Context context) {
