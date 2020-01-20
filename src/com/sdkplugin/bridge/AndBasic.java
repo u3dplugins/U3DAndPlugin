@@ -6,13 +6,16 @@ import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.net.NetworkInterface;
+import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.LocaleList;
 import android.os.Looper;
 import android.os.StatFs;
 import android.util.DisplayMetrics;
@@ -453,7 +456,7 @@ public class AndBasic {
 	};
 
 	public static final int getNumberOfCPUCores() {
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+		if (getBVSDK() <= Build.VERSION_CODES.GINGERBREAD_MR1) {
 			return 1;
 		}
 		int cores;
@@ -504,5 +507,27 @@ public class AndBasic {
 	// 2（Surface.ROTATION_180---竖屏反向）、3（Surface.ROTATION_270---横屏反向）
 	static final public int getRotation(Context ctx) {
 		return getWinDisplay(ctx).getRotation();
+	}
+
+	@SuppressWarnings("deprecation")
+	static final public Locale getLocale(Context ctx) {
+		Locale _loc = null;
+		try {
+			Configuration _cf = ctx.getResources().getConfiguration();
+			if (getBVSDK() >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+				LocaleList _lt = _cf.getLocales();
+				if (_lt != null && !_lt.isEmpty()) {
+					_loc = _lt.get(0);
+				}
+			} else {
+				_loc = _cf.locale;
+			}
+		} catch (Exception e) {
+		}
+		if (_loc == null) {
+			_loc = Locale.ENGLISH;
+		}
+
+		return _loc;
 	}
 }

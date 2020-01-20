@@ -8,6 +8,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -557,5 +558,9 @@ public class AndU3DBasic extends AndPermission {
 
 	static final public Window getWindow() {
 		return getWindow(getCurActivity());
+	}
+
+	static final public Locale getLocale() {
+		return getLocale(getCurActivity());
 	}
 }
