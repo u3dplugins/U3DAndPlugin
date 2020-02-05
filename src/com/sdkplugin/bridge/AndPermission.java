@@ -3,7 +3,6 @@ package com.sdkplugin.bridge;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
@@ -16,11 +15,15 @@ import android.support.v4.content.ContextCompat;
  * 功能 : 在继承UnityPlayerActivity里面调用
  */
 public class AndPermission extends AndBasic {
-	static int reqCode = 2; // 10000
+	// Manifest.permission.READ_EXTERNAL_STORAGE,
+	// Manifest.permission.WRITE_EXTERNAL_STORAGE
+	// Manifest.permission.READ_PHONE_STATE
+	static int reqCode = 2;
+	static int Code_1 = PackageManager.PERMISSION_GRANTED;
 
 	// 是否授权
 	static public boolean isGrant(Activity activity, String permission) {
-		return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
+		return ContextCompat.checkSelfPermission(activity, permission) == Code_1;
 	}
 
 	// 声明一个集合，在后面的代码中用来存储用户拒绝授权的权
@@ -41,15 +44,10 @@ public class AndPermission extends AndBasic {
 		}
 	}
 
-	static public void initPermissions(Activity activity) {
-		String[] perm = { Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE };
-		initPermissions(activity, perm);
-	}
-
 	static public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults, Activity activity) {
 		if (reqCode == requestCode) {
 			for (int i = 0; i < grantResults.length; i++) {
-				if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+				if (grantResults[i] != Code_1) {
 					// 判断是否勾选禁止后不再询问
 					boolean showRequestPermission = ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i]);
 					if (showRequestPermission) {
