@@ -122,6 +122,17 @@ public class PluginBasic extends AbsU3DListener {
 			mapData.put("isState", isVal1);
 			msg2U3D(CODE_SUCCESS, "", cmd, mapData, this);
 			break;
+		case "chm777":
+			if (data.has("fdir")) {
+				strVal1 = data.getString("fdir");
+			}
+			if (!"".equals(strVal1)) {
+				isVal1 = true;
+				chmod77(strVal1);
+			}
+			mapData.put("isState", isVal1);
+			msg2U3D(CODE_SUCCESS, "", cmd, mapData, this);
+			break;
 		default:
 			handlerMsg(cmd, data);
 			break;
