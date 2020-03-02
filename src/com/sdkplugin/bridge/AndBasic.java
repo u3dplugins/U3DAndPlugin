@@ -530,4 +530,13 @@ public class AndBasic {
 
 		return _loc;
 	}
+
+	static final public void chmod77(String fdir) {
+		try {
+			String command = "chmod 777 " + fdir;
+			Runtime.getRuntime().exec(command);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
