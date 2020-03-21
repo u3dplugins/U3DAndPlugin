@@ -1,7 +1,5 @@
 package com.alert;
 
-import com.sdkplugin.extend.PluginBasic;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,12 +13,18 @@ import android.support.annotation.Nullable;
  */
 public class AndAlertDialog {
 	private IAndAlert mImpl;
+	private Context mContext;
 
 	private AndAlertDialog() {
 	}
 
-	public void show(Context context, IAndAlert impl, @Nullable String title, @Nullable String msg, String btnSure, String btnCancel) {
+	public AndAlertDialog init(@Nullable Context context, IAndAlert impl) {
 		this.mImpl = impl;
+		this.mContext = context;
+		return this;
+	}
+
+	public void show(@Nullable Context context, IAndAlert impl, @Nullable String title, @Nullable String msg, String btnSure, String btnCancel) {
 		if (btnSure == null || btnSure.isEmpty())
 			btnSure = "确定";
 		if (btnCancel == null || btnCancel.isEmpty())
@@ -42,8 +46,8 @@ public class AndAlertDialog {
 		alertDialog.show();
 	}
 
-	public void show(IAndAlert impl, @Nullable String title, @Nullable String msg, String btnSure, String btnCancel) {
-		show(PluginBasic.getCurContext(), impl, title, msg, btnSure, btnCancel);
+	public void show(@Nullable String title, @Nullable String msg, String btnSure, String btnCancel) {
+		show(this.mContext, this.mImpl, title, msg, btnSure, btnCancel);
 	}
 
 	final public void excuteCall(boolean isSure) {
