@@ -8,7 +8,8 @@ public enum AndPhoneType {
 	PT_HUAWEI(1), // 华为 HuaWei
 	PT_XIAOMI(2), // 小米 XiaoMi
 	PT_OPPO(3), // oppo
-	PT_VIVO(4);// vivo
+	PT_VIVO(4), // vivo
+	PT_MEIZU(5); // 魅族
 
 	private int index;
 

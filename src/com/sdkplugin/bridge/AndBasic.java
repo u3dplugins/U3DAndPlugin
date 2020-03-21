@@ -61,17 +61,23 @@ public class AndBasic {
 		return Build.VERSION.SDK_INT;
 	}
 
-	static final public AndPhoneType getPhoneType() {
-		String ver = getBManufacturer().toLowerCase();
+	static final public AndPhoneType getPhoneType(boolean isSoftware) {
+		String ver = (isSoftware ? getBBrand() : getBManufacturer()).toLowerCase();
 		if (ver.contains("huawei") || ver.contains("honor"))
 			return AndPhoneType.PT_HUAWEI;
-		else if (ver.contains("xiaomi"))
+		else if (ver.contains("xiaomi") || ver.contains("redmi"))
 			return AndPhoneType.PT_XIAOMI;
 		else if (ver.contains("oppo"))
 			return AndPhoneType.PT_OPPO;
 		else if (ver.contains("vivo"))
 			return AndPhoneType.PT_VIVO;
+		else if (ver.contains("meizu"))
+			return AndPhoneType.PT_MEIZU;
 		return AndPhoneType.PT_NONE;
+	}
+
+	static final public AndPhoneType getPhoneType() {
+		return getPhoneType(false);
 	}
 
 	static final public int getPhoneTypeInt() {

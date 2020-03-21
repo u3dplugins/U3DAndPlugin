@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
@@ -86,5 +90,84 @@ public class AndPermission extends AndBasic {
 
 	static final public void reqPermission(Activity activity, String permission) {
 		initPermissions(activity, permission);
+	}
+
+	public static void gotoPermission(Context context) {
+		AndPhoneType pt = getPhoneType(true);
+		switch (pt) {
+		case PT_HUAWEI:
+			gotoHuaweiPermission(context);
+			break;
+		case PT_XIAOMI:
+			gotoMiuiPermission(context);// 小米
+			break;
+		case PT_MEIZU:
+			gotoMeizuPermission(context);
+			break;
+		default:
+			context.startActivity(getAppDetailSettingIntent(context));
+			break;
+		}
+	}
+
+	/**
+	 * 跳转到miui的权限管理页面
+	 */
+	private static void gotoMiuiPermission(Context context) {
+		Intent _itt = new Intent("miui.intent.action.APP_PERM_EDITOR");
+		try { // MIUI 8
+			_itt.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
+			_itt.putExtra("extra_pkgname", context.getPackageName());
+			context.startActivity(_itt);
+		} catch (Exception e) {
+			try { // MIUI 5/6/7
+				_itt.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.AppPermissionsEditorActivity");
+				_itt.putExtra("extra_pkgname", context.getPackageName());
+				context.startActivity(_itt);
+			} catch (Exception e1) { // 否则跳转到应用详情
+				context.startActivity(getAppDetailSettingIntent(context));
+			}
+		}
+	}
+
+	/**
+	 * 跳转到魅族的权限管理系统
+	 */
+	private static void gotoMeizuPermission(Context context) {
+		try {
+			Intent _itt = new Intent("com.meizu.safe.security.SHOW_APPSEC");
+			_itt.addCategory(Intent.CATEGORY_DEFAULT);
+			_itt.putExtra("packageName", context.getPackageName());
+			context.startActivity(_itt);
+		} catch (Exception e) {
+			context.startActivity(getAppDetailSettingIntent(context));
+		}
+	}
+
+	/**
+	 * 华为的权限管理页面
+	 */
+	private static void gotoHuaweiPermission(Context context) {
+		try {
+			Intent _itt = new Intent();
+			_itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			ComponentName comp = new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity");// 华为权限管理
+			_itt.setComponent(comp);
+			context.startActivity(_itt);
+		} catch (Exception e) {
+			context.startActivity(getAppDetailSettingIntent(context));
+		}
+
+	}
+
+	/**
+	 * 获取应用详情页面intent（如果找不到要跳转的界面，也可以先把用户引导到系统设置页面）
+	 */
+	private static Intent getAppDetailSettingIntent(Context context) {
+		Intent _itt = new Intent();
+		_itt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		_itt.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+		_itt.setData(Uri.fromParts("package", context.getPackageName(), null));
+		return _itt;
 	}
 }
