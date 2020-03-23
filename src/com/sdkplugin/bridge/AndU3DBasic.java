@@ -418,9 +418,9 @@ public class AndU3DBasic extends AndPermission {
 		map.put("imsi", getIMSI());
 		map.put("simOperatorName", getSimOperatorName());
 		map.put("simOperator", getSimOperator());
-		AndPhoneType _pt = getPhoneType();
-		map.put("phoneBrand", _pt);// 手机品牌
-		map.put("phoneBrandInt", _pt.ordinal());
+		map.put("software", getBBrand());
+		map.put("hardware", getBManufacturer());
+		map.put("phoneBrand", getPhoneType()); // 手机品牌
 		return map;
 	}
 
