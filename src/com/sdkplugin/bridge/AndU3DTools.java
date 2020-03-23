@@ -8,6 +8,8 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.interfaces.IU3DListener;
+
 /**
  * 类名 : U3D -> JAVA工具类 <br/>
  * 作者 : canyon / 龚阳辉 <br/>

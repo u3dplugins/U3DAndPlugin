@@ -1,4 +1,4 @@
-package com.sdkplugin.bridge;
+package com.interfaces;
 
 /**
  * 类名 : U3D <-> java 接口 <br/>

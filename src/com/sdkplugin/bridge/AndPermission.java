@@ -3,6 +3,8 @@ package com.sdkplugin.bridge;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.interfaces.IAndPermission;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,8 +24,8 @@ public class AndPermission extends AndBasic {
 	// Manifest.permission.READ_EXTERNAL_STORAGE,
 	// Manifest.permission.WRITE_EXTERNAL_STORAGE
 	// Manifest.permission.READ_PHONE_STATE
-	static int reqCode = 2;
-	static int Code_1 = PackageManager.PERMISSION_GRANTED;
+	static public int reqCode = 2;
+	static public int Code_1 = PackageManager.PERMISSION_GRANTED;
 	static public boolean isReRequest = true;
 
 	// 是否授权
@@ -48,7 +50,7 @@ public class AndPermission extends AndBasic {
 	}
 
 	// 声明一个集合，在后面的代码中用来存储用户拒绝授权的权
-	static final public void initPermissions(Activity activity, String... permissions) {
+	static final public void initPermissions(Activity activity, int requestCode, String... permissions) {
 		if (permissions == null || permissions.length <= 0)
 			return;
 
@@ -63,33 +65,35 @@ public class AndPermission extends AndBasic {
 		if (!_list.isEmpty()) {
 			String[] _arrs = {};
 			_arrs = _list.toArray(_arrs);// 将List转为数组
-			ActivityCompat.requestPermissions(activity, _arrs, reqCode);
+			ActivityCompat.requestPermissions(activity, _arrs, requestCode);
 		}
 	}
 
-	static final public void onRequestPermissionsResult2(int requestCode, String[] permissions, int[] grantResults, Activity activity) {
+	static final public void initPermissions(Activity activity, String... permissions) {
+		initPermissions(activity, reqCode, permissions);
+	}
+
+	// 状态[0=已申请,1=未申请(可以申请),2=未申请(不能再申请)]
+	static final public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults, Activity activity) {
 		if (reqCode == requestCode) {
+			String _per = null;
 			for (int i = 0; i < grantResults.length; i++) {
+				_per = permissions[i];
 				if (grantResults[i] != Code_1) {
 					// 判断是否勾选禁止后不再询问
 					if (isCanShowPermission(activity, permissions[i])) {
-						// showToast("权限未申请");
+						if (isReRequest) {
+							initPermissions(activity, _per);
+						}
+						instancePremission().excuteCall(_per, 1);
+					} else {
+						instancePremission().excuteCall(_per, 2);
 					}
+				} else {
+					instancePremission().excuteCall(_per, 0);
 				}
 			}
 		}
-	}
-
-	static final public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults, Activity activity) {
-		if (reqCode == requestCode) {
-			if (isReRequest) {
-				initPermissions(activity, permissions);
-			}
-		}
-	}
-
-	static final public void reqPermission(Activity activity, String permission) {
-		initPermissions(activity, permission);
 	}
 
 	static final public void gotoPermission(Context context) {
@@ -170,5 +174,27 @@ public class AndPermission extends AndBasic {
 		_itt.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
 		_itt.setData(Uri.fromParts("package", context.getPackageName(), null));
 		return _itt;
+	}
+
+	private IAndPermission _mPerm = null;
+
+	public void excuteCall(String perm, int state) {
+		if (_mPerm != null) {
+			_mPerm.onCallPermiison(perm, state);
+		}
+	}
+
+	public AndPermission init(IAndPermission implPerm) {
+		this._mPerm = implPerm;
+		return this;
+	}
+
+	private static AndPermission _instance = null;
+
+	static final public AndPermission instancePremission() {
+		if (_instance == null) {
+			_instance = new AndPermission();
+		}
+		return _instance;
 	}
 }

@@ -1,5 +1,7 @@
 package com.sdkplugin.bridge;
 
+import com.interfaces.IU3DListener;
+
 /**
  * 类名 : U3D <-> java 桥 <br/>
  * 作者 : canyon / 龚阳辉 <br/>

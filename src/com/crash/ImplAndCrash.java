@@ -4,7 +4,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.crash.IAndCrash;
+import com.interfaces.IAndCrash;
 
 public class ImplAndCrash implements IAndCrash {
 	String _url0 = "http://60.205.217.89:9902/statistics", _url = null;
@@ -66,8 +66,9 @@ public class ImplAndCrash implements IAndCrash {
 		_t.start();
 	}
 
-	public void init(String url) {
+	public ImplAndCrash init(String url) {
 		this._url = url;
+		return this;
 	}
 
 	protected String getUrl() {

@@ -1,4 +1,4 @@
-package com.crash;
+package com.interfaces;
 
 /**
  * 类名 : 接口 - 发送崩溃信息到服务器 <br/>

@@ -1,4 +1,4 @@
-package com.alert;
+package com.interfaces;
 
 /**
  * 类名 : and 提示接口 接口 回调<br/>
