@@ -85,12 +85,12 @@ public class AndPermission extends AndBasic {
 						if (isReRequest) {
 							initPermissions(activity, _per);
 						}
-						instancePremission().excuteCall(_per, 1);
+						premissionInstance().excuteCall(_per, 1);
 					} else {
-						instancePremission().excuteCall(_per, 2);
+						premissionInstance().excuteCall(_per, 2);
 					}
 				} else {
-					instancePremission().excuteCall(_per, 0);
+					premissionInstance().excuteCall(_per, 0);
 				}
 			}
 		}
@@ -191,7 +191,7 @@ public class AndPermission extends AndBasic {
 
 	private static AndPermission _instance = null;
 
-	static final public AndPermission instancePremission() {
+	static final public AndPermission premissionInstance() {
 		if (_instance == null) {
 			_instance = new AndPermission();
 		}
