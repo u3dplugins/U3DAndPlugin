@@ -172,7 +172,7 @@ public class AndPermission extends AndBasic {
 		_itt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		// 等价于 android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 		_itt.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-		_itt.setData(Uri.fromParts("package", context.getPackageName(), null));
+		_itt.setData(Uri.fromParts("package", context.getApplicationContext().getPackageName(), null));
 		return _itt;
 	}
 
