@@ -92,7 +92,7 @@ public class AndPermission extends AndBasic {
 		initPermissions(activity, permission);
 	}
 
-	public static void gotoPermission(Context context) {
+	static final public void gotoPermission(Context context) {
 		AndPhoneType pt = getPhoneType(true);
 		switch (pt) {
 		case PT_HUAWEI:
