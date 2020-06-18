@@ -1,6 +1,5 @@
 package com.sdkplugin.bridge;
 
-import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -18,6 +17,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -59,6 +59,14 @@ public class AndU3DBasic extends AndPermission {
 
 	static final public Intent getCurIntent() {
 		return getCurActivity().getIntent();
+	}
+
+	static final public Application getApplication() {
+		return getCurActivity().getApplication();
+	}
+
+	static final public Context getApplicationContext() {
+		return getCurActivity().getApplicationContext();
 	}
 
 	static final public void sendMsg(String gobjName, String method, String data) {
