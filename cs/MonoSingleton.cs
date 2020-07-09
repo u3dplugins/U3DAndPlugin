@@ -89,10 +89,18 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 	protected virtual void OnCall4Start(){ }
 	protected virtual void OnCall4Destroy(){ }
 
-	protected bool _isDebug = false; //是否打印
+	public bool isDebug = false; //是否打印
 	protected void Log(object msg){
-		if(msg == null || !_isDebug)
+			if(!isDebug || msg == null)
+				return;
+			Debug.LogFormat("==== ABMgr = [{0}]",msg);
+			// Debug.LogFormat("== [{0}] == [{1}] == [{2}]",this.GetType(),this.GetInstanceID(),msg);
+		}
+		
+	protected void LogFmt(string fmt,params object[] pars){
+		if(!isDebug || string.IsNullOrEmpty(fmt))
 			return;
-		Debug.LogFormat("== [{0}] == [{1}] == [{2}]",this.GetType(),this.GetInstanceID(),msg);
+		string msg = string.Format(fmt,pars);
+		Log(msg);
 	}
 }
