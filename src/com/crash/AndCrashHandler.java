@@ -33,8 +33,7 @@ public class AndCrashHandler implements UncaughtExceptionHandler {
 	}
 
 	@Override
-	public void uncaughtException(Thread t, Throwable ex) {
-		ex.printStackTrace();
+	public void uncaughtException(Thread t, Throwable ex) {		
 		try {
 			String _time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 			String _info = appendAllInfo(_time, ex);
@@ -44,6 +43,7 @@ public class AndCrashHandler implements UncaughtExceptionHandler {
 			if (this.mAndCrash != null) {
 				this.mAndCrash.sendCrash2Sv(_info);
 			}
+			ex.printStackTrace();
 			// 如果系统提供了默认的异常处理器，则交给系统去结束程序，否则就自己结束自己
 			if (this.mDefaultHandler != null) {
 				this.mDefaultHandler.uncaughtException(t, ex);

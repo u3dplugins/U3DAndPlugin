@@ -35,10 +35,14 @@ public class PluginBasic extends AbsU3DListener {
 
 		JSONObject obj = null;
 		boolean isThrow = false;
+		boolean isCrash = false;
 		try {
 			reInit();
 			obj = new JSONObject(json);
 			final String cmd = obj.getString("cmd");
+			if (obj.has("isCrash")) {
+				isCrash = obj.getBoolean("isCrash");
+			}
 			if (obj.has("isThrow")) {
 				isThrow = obj.getBoolean("isThrow");
 			}
@@ -52,6 +56,10 @@ public class PluginBasic extends AbsU3DListener {
 			}
 		} finally {
 			reInit();
+			if(isCrash)
+			{
+				System.out.println(1/0);
+			}
 		}
 	}
 
