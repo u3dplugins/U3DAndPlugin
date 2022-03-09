@@ -18,11 +18,13 @@ import android.net.Uri;
  * 功能 : 相当于一个默认消息
  */
 public class PluginBasic extends AbsU3DListener {
+	protected Map<String, Object> newMap(int size) {
+		size = (size <= 2) ? 2 : size;
+		return new HashMap<String, Object>(size);
+	}
 
-	public Map<String, Object> mapData = new HashMap<String, Object>();
-
-	private void reInit() {
-		mapData.clear();
+	protected Map<String, Object> newMap() {
+		return newMap(2);
 	}
 
 	@Override
@@ -37,7 +39,6 @@ public class PluginBasic extends AbsU3DListener {
 		boolean isThrow = false;
 		boolean isCrash = false;
 		try {
-			reInit();
 			obj = new JSONObject(json);
 			final String cmd = obj.getString("cmd");
 			if (obj.has("isCrash")) {
@@ -55,10 +56,8 @@ public class PluginBasic extends AbsU3DListener {
 				msg2U3D(CODE_ERROR, ex.getMessage(), obj, this);
 			}
 		} finally {
-			reInit();
-			if(isCrash)
-			{
-				System.out.println(1/0);
+			if (isCrash) {
+				System.out.println(1 / 0);
 			}
 		}
 	}
@@ -66,6 +65,7 @@ public class PluginBasic extends AbsU3DListener {
 	private void handlerJson(final String cmd, JSONObject data) throws Exception {
 		String strVal1 = "", strVal2 = "";
 		boolean isVal1 = false;
+		Map<String, Object> mapData = newMap(8);
 		switch (cmd) {
 		case "getPackageInfo":
 			msg2U3D(getTextInAssets(data.getString("filename")), this);
@@ -146,6 +146,7 @@ public class PluginBasic extends AbsU3DListener {
 	protected void handlerMsg(final String cmd, JSONObject data) throws Exception {
 		switch (cmd) {
 		case "map_demo":
+			Map<String, Object> mapData = newMap();
 			mapData.put("code", CODE_SUCCESS);
 			mapData.put("val", "这是一个demo");
 			msg2U3D(mapData);
